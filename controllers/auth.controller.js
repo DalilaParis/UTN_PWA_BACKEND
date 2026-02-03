@@ -7,7 +7,7 @@ import ServerError from "../helpers/error.helpers.js"
 
 class AuthController {
     async register(request, response) {
-
+        console.log("hola")
         try {
 
             const { email, password, username } = request.body
@@ -59,7 +59,7 @@ class AuthController {
             })
         }
         catch (error) {
-            /* Si tiene status decimos que es un error controlado (osea es esperable) */
+            console.log(error)
             if (error.status) {
                 return response.json({
                     status: error.status,
@@ -98,7 +98,7 @@ class AuthController {
             }
 
             if (!(await bcrypt.compare(password, usuario_encontrado.password))) {
-                /* Respondemos igual a que si no existiese para mayor seguridad */
+                
                 throw new ServerError('Credenciales invalidas', 401)
             }
 
@@ -124,7 +124,7 @@ class AuthController {
             })
         }
         catch (error) {
-            /* Si tiene status decimos que es un error controlado (osea es esperable) */
+           
             if (error.status) {
                 return response.json({
                     status: error.status,
@@ -173,19 +173,9 @@ class AuthController {
                     email_verified: true
                 }
             )
-           /*  return response.json(
-                {
-                    ok: true,
-                    status: 200,
-                    message: "usuario verificado",
-                    data: null
-                }
-            ) */
-            /* 
-            Redireccionar al frontend 
-            */
+          
             return response.redirect(
-                ENVIRONMENT.URL_FRONTEND + '/login?from=email-validated' //La querystring from=email-validated es opcional
+                ENVIRONMENT.URL_FRONTEND + '/login?from=email-validated' 
             ) 
            
         }
@@ -201,7 +191,7 @@ class AuthController {
                 )
             }
 
-            /* Si tiene status decimos que es un error controlado (osea es esperable) */
+        
             if (error.status) {
                 return response.json({
                     status: error.status,
