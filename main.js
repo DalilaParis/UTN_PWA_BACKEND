@@ -16,9 +16,9 @@ app.use(cors())
 
 app.use(express.json())
 
-app.get("test", (request, response)=>{response.send("hola")})
-app.use("api/auth", authRouter)
-app.use("api/workspace", workspaceRouter)
+app.get("/test", (request, response)=>{response.send("hola")})
+app.use("/api/auth", authRouter)
+app.use("/api/workspace", workspaceRouter)
 
 app.listen(
     8080, 
