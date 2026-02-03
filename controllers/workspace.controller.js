@@ -8,8 +8,7 @@ import jwt from 'jsonwebtoken'
 
 class WorkspaceController {
     async getWorkspaces(request, response) {
-        //Quiero obtener los espacios de trabajo asociados al cliente que hace la consulta
-        console.log("El usuario logueado es: ", request.user) //request.user
+        console.log("El usuario logueado es: ", request.user) 
         const user_id = request.user.id
         const workspaces = await workspaceRepository.getWorkspacesByUserId(user_id)
         response.json({
@@ -56,7 +55,6 @@ class WorkspaceController {
             })
         }
         catch (error) {
-            /* Si tiene status decimos que es un error controlado (osea es esperable) */
             if (error.status) {
                 return response.json({
                     status: error.status,
@@ -133,7 +131,7 @@ class WorkspaceController {
         }
         catch (error) {
             console.log("Error en addMember", error)
-            /* Si tiene status decimos que es un error controlado (osea es esperable) */
+            
             if (error.status) {
                 return response.json({
                     status: error.status,
@@ -165,7 +163,7 @@ class WorkspaceController {
         }
         catch(error){
             console.log({error})
-            /* Si tiene status decimos que es un error controlado (osea es esperable) */
+            
             if (error.status) {
                 return response.json({
                     status: error.status,
@@ -199,7 +197,7 @@ class WorkspaceController {
         }
         catch(error){
             console.log({error})
-            /* Si tiene status decimos que es un error controlado (osea es esperable) */
+            
             if (error.status) {
                 return response.json({
                     status: error.status,
