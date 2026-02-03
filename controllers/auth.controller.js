@@ -7,7 +7,6 @@ import ServerError from "../helpers/error.helpers.js"
 
 class AuthController {
     async register(request, response) {
-        console.log("hola")
         try {
 
             const { email, password, username } = request.body
@@ -25,12 +24,9 @@ class AuthController {
 
             const verification_email_token = jwt.sign(
                 {
-                    email: email //Guardamos el email del usuario que se quiere registrar
+                    email: email 
                 },
-                ENVIRONMENT.JWT_SECRET_KEY/* ,
-                {
-                    expiresIn: '7d'
-                } */
+                ENVIRONMENT.JWT_SECRET_KEY
             )
 
             mail_transporter.sendMail(
@@ -210,12 +206,3 @@ class AuthController {
 
 const authController = new AuthController()
 export default authController
-
-
-
-/* 
-condicion sobre una variable
-un bucle de 100 a 1000 registros (donde no se consulta a ningun servicio externo)
-una consulta a DB (Debatible porque si la DB tiene millones de registros puede ser mas costoso)
-una consulta a otro servidor
-*/

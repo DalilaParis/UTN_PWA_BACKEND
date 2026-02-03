@@ -18,7 +18,7 @@ class ChannelController {
         }
          catch (error) {
             console.log("Error en addMember", error)
-            /* Si tiene status decimos que es un error controlado (osea es esperable) */
+            
             if (error.status) {
                 return response.json({
                     status: error.status,
@@ -42,7 +42,6 @@ class ChannelController {
             const {name} = request.body
             const {workspace_id} = request.params
 
-            //Pueden validar el nombre
 
             const channel_created = await channelRepository.create(workspace_id, name)
             response.json(
@@ -58,7 +57,7 @@ class ChannelController {
         }
          catch (error) {
             console.log("Error en addMember", error)
-            /* Si tiene status decimos que es un error controlado (osea es esperable) */
+            
             if (error.status) {
                 return response.json({
                     status: error.status,
