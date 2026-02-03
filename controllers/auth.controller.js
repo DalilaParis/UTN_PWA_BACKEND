@@ -59,7 +59,6 @@ class AuthController {
             })
         }
         catch (error) {
-            console.log(error)
             if (error.status) {
                 return response.json({
                     status: error.status,
@@ -81,9 +80,7 @@ class AuthController {
     async login(request, response) {
         try {
             const { email, password } = request.body
-            /* 
-            Aplicar validaciones sobre el email y la password
-            */
+            
             if (!email) {
                 throw new ServerError('Debes enviar un email', 400)
             }
