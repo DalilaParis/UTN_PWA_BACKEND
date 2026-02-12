@@ -29,7 +29,7 @@ class AuthController {
                 ENVIRONMENT.JWT_SECRET_KEY
             )
 
-            mail_transporter.sendMail(
+            await mail_transporter.sendMail(
                 {
                     from: ENVIRONMENT.GMAIL_USERNAME,
                     to: email,
@@ -55,6 +55,7 @@ class AuthController {
             })
         }
         catch (error) {
+            console.log(error)
             if (error.status) {
                 return response.json({
                     status: error.status,
