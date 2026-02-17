@@ -4,7 +4,7 @@ import ServerError from '../helpers/error.helpers.js'
 
 function authMiddleware (request, response, next){
     try{
-        
+       
         const authorization_header = request.headers.authorization
     
         if(!authorization_header){
@@ -33,7 +33,6 @@ function authMiddleware (request, response, next){
                 }
             )
         }
-
         if(error.status){
             return response.json({
                 status: error.status,
