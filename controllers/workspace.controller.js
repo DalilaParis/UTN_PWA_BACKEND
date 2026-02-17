@@ -36,15 +36,24 @@ class WorkspaceController {
 
 
     async delete(request, response) {
-        const user_id = request.user.id
-        const { workspace_id } = request.params
-        await workspaceService.deleteFromUser(workspace_id, user_id)
-        response.json({
-            ok: true,
-            message: 'Espacio de trabajo eliminado correctamente',
-            data: null,
-            status: 200
-        })
+        try {
+            const user_id = request.user.id
+            const { workspace_id } = request.params
+            await workspaceService.deleteFromUser(workspace_id, user_id)
+            response.json({
+                ok: true,
+                message: 'Espacio de trabajo eliminado correctamente',
+                data: null,
+                status: 200
+            })
+        } catch (error) {
+            console.error("Error deleting workspace:", error)
+            response.status(error.status || 500).json({
+                ok: false,
+                message: error.message || 'Error al eliminar el espacio de trabajo',
+                status: error.status || 500
+            })
+        }
     }
 
     async addMemberRequest(request, response) {

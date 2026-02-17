@@ -8,6 +8,8 @@ import workspaceRouter from "./routes/workspace.router.js"
 import workspaceRepository from "./repository/workspace.repository.js"
 import messagesRepository from "./repository/messages.repository.js"
 
+import { errorHandlerMiddleware } from "./middlewares/error.middleware.js"
+
 connectMongoDB()
 
 const app = express()
@@ -19,8 +21,10 @@ app.use(express.json())
 app.use("/api/auth", authRouter)
 app.use("/api/workspace", workspaceRouter)
 
+app.use(errorHandlerMiddleware)
+
 app.listen(
-    8080, 
+    8080,
     () => {
         console.log('Nuestra app se escucha en el puerto 8080')
     }

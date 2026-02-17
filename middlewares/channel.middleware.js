@@ -3,11 +3,11 @@ import { channelRepository } from "../repository/channel.repository.js"
 
 async function channelMiddleware(request, response, next) {
     try {
-        const {channel_id, workspace_id} = request.params
+        const { channel_id, workspace_id } = request.params
 
         const channel_selected = await channelRepository.getByIdAndWorkspaceId(channel_id, workspace_id)
 
-        if(!channel_selected) {
+        if (!channel_selected) {
             throw new ServerError('No existe ese canal', 404)
         }
 
@@ -18,7 +18,7 @@ async function channelMiddleware(request, response, next) {
         console.log("Error en channel.middleware", error)
 
         if (error.status) {
-            return response.json({
+            return response.status(error.status).json({
                 status: error.status,
                 ok: false,
                 message: error.message,
@@ -26,7 +26,7 @@ async function channelMiddleware(request, response, next) {
             })
         }
 
-        return response.json({
+        return response.status(500).json({
             ok: false,
             status: 500,
             message: "Error interno del servidor",

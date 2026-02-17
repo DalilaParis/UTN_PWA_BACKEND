@@ -9,7 +9,7 @@ class WorkspaceService {
             throw new ServerError('No existe ese espacio de trabajo', 404)
         }
         const member_info = await workspaceRepository.getMemberByWorkspaceIdAndUserId(workspace_id, user_id)
-        if (member_info.role !== 'Owner') {
+        if (!member_info || member_info.role !== 'Owner') {
             throw new ServerError('No tienes permiso para eliminar este espacio de trabajo', 403)
         }
         await workspaceRepository.delete(workspace_id)

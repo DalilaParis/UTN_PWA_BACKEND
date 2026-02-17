@@ -32,7 +32,7 @@ function workspaceMiddleware(authorized_roles = []) {
         catch (error) {
             console.log("Error en workspace.middleware", error)
             if (error.status) {
-                return response.json({
+                return response.status(error.status).json({
                     status: error.status,
                     ok: false,
                     message: error.message,
@@ -40,7 +40,7 @@ function workspaceMiddleware(authorized_roles = []) {
                 })
             }
 
-            return response.json({
+            return response.status(500).json({
                 ok: false,
                 status: 500,
                 message: "Error interno del servidor",

@@ -22,7 +22,7 @@ class AuthController {
 
         const verification_email_token = jwt.sign(
             {
-                email: email 
+                email: email
             },
             ENVIRONMENT.JWT_SECRET_KEY
         )
@@ -37,7 +37,7 @@ class AuthController {
                 <p>Necesitamos que verifiques tu mail</p>
                 <p>Haz click en "Verificar" para verificar este mail</p>
                 <a 
-                href='http://localhost:8080/api/auth/verify-email?verification_email_token=${verification_email_token}'
+                href='${ENVIRONMENT.URL_BACKEND}/api/auth/verify-email?verification_email_token=${verification_email_token}'
                 >Verificar</a>
                 <br>
                 <span>Si desconoces este registro desestima este mail</span>
