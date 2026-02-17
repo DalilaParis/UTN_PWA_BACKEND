@@ -10,7 +10,7 @@ import jwt from 'jsonwebtoken'
 
 class WorkspaceController {
     async getWorkspaces(request, response) {
-        console.log("El usuario logueado es: ", request.user) 
+        console.log("El usuario logueado es: ", request.user)
         const user_id = request.user.id
         const workspaces = await workspaceRepository.getWorkspacesByUserId(user_id)
         response.json({
@@ -101,13 +101,26 @@ class WorkspaceController {
     }
 
     async acceptInvitation(request, response) {
-        const { invitation_token } = request.query
+        try {
+            const { invitation_token } = request.query
+            const payload = jwt.verify(invitation_token, ENVIRONMENT.JWT_SECRET_KEY)
+            const { id, workspace: workspace_id, role } = payload
 
-        const payload = jwt.verify(invitation_token, ENVIRONMENT.JWT_SECRET_KEY)
-        const { id, workspace: workspace_id, role } = payload
-        await workspaceRepository.addMember(workspace_id, id, role)
+            // Check if already a member
+            const existingMember = await workspaceRepository.getMemberByWorkspaceIdAndUserId(workspace_id, id)
+            if (!existingMember) {
+                await workspaceRepository.addMember(workspace_id, id, role)
+            }
 
-        response.redirect(`${ENVIRONMENT.URL_FRONTEND}/`)
+            response.redirect(`${ENVIRONMENT.URL_FRONTEND}/`)
+        } catch (error) {
+            console.error("Error accepting invitation:", error)
+            response.status(500).json({
+                ok: false,
+                message: 'Error al aceptar la invitación',
+                error: error.message
+            })
+        }
     }
 
     async getById(request, response) {
@@ -120,6 +133,17 @@ class WorkspaceController {
                 member
             },
             message: 'Espacio de trabajo seleccionado'
+        })
+    }
+
+    async getMembers(request, response) {
+        const { workspace_id } = request.params
+        const members = await workspaceRepository.getMembersByWorkspaceId(workspace_id)
+        response.json({
+            ok: true,
+            data: {
+                members
+            }
         })
     }
 }
