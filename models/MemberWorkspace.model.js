@@ -20,7 +20,11 @@ const MemberWorkspaceSchema = new mongoose.Schema(
             type: String,
             enum: ['Owner', 'Admin', 'User'],
             default: 'User',
-            required: true
+            required: true,
+            set: (value) => {
+                if (!value) return value
+                return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
+            }
         }
     }
 )
