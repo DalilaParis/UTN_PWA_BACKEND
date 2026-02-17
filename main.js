@@ -10,7 +10,7 @@ import messagesRepository from "./repository/messages.repository.js"
 
 import { errorHandlerMiddleware } from "./middlewares/error.middleware.js"
 
-connectMongoDB()
+await connectMongoDB()
 
 const app = express()
 
