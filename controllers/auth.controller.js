@@ -27,23 +27,30 @@ class AuthController {
             ENVIRONMENT.JWT_SECRET_KEY
         )
 
-        mail_transporter.sendMail(
-            {
-                from: ENVIRONMENT.GMAIL_USERNAME,
-                to: email,
-                subject: 'Verifica tu email',
-                html: `
-                <h1>Bienvenido ${username}</h1>
-                <p>Necesitamos que verifiques tu mail</p>
-                <p>Haz click en "Verificar" para verificar este mail</p>
-                <a 
-                href='${ENVIRONMENT.URL_BACKEND}/api/auth/verify-email?verification_email_token=${verification_email_token}'
-                >Verificar</a>
-                <br>
-                <span>Si desconoces este registro desestima este mail</span>
-                `
-            }
-        )
+        try {
+            await mail_transporter.sendMail(
+                {
+                    from: ENVIRONMENT.GMAIL_USERNAME,
+                    to: email,
+                    subject: 'Verifica tu email',
+                    html: `
+                    <h1>Bienvenido ${username}</h1>
+                    <p>Necesitamos que verifiques tu mail</p>
+                    <p>Haz click en "Verificar" para verificar este mail</p>
+                    <a 
+                    href='${ENVIRONMENT.URL_BACKEND}/api/auth/verify-email?verification_email_token=${verification_email_token}'
+                    >Verificar</a>
+                    <br>
+                    <span>Si desconoces este registro desestima este mail</span>
+                    `
+                }
+            )
+            console.log("Email enviado con éxito a:", email)
+        } catch (mailError) {
+            console.error("Error al enviar el mail:", mailError)
+            // No bloqueamos el registro si el mail falla, pero avisamos en consola
+            // Opcionalmente podemos lanzar un error si el mail es crítico
+        }
 
         return response.json({
             message: 'Usuario creado exitosamente',
