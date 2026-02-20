@@ -115,7 +115,6 @@ class WorkspaceController {
             const payload = jwt.verify(invitation_token, ENVIRONMENT.JWT_SECRET_KEY)
             const { id, workspace: workspace_id, role } = payload
 
-            // Check if already a member
             const existingMember = await workspaceRepository.getMemberByWorkspaceIdAndUserId(workspace_id, id)
             if (!existingMember) {
                 await workspaceRepository.addMember(workspace_id, id, role)
